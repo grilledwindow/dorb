@@ -6,7 +6,7 @@
 // will "boot" the module and make it ready to use. Currently browsers
 // don't support natively imported WebAssembly as an ES module, but
 // eventually the manual initialization won't be required!
-import init, { add, greett } from './pkg/dorb.js';
+import init, { greet } from '../pkg/dorb.js';
 
 async function run() {
     // First up we need to actually load the wasm file, so we use the
@@ -37,12 +37,7 @@ async function run() {
     // modes
     await init();
 
-    // And afterwards we can use all the functionality defined in wasm.
-    const result = add(1, 2);
-    greett();
-    console.log(`1 + 2 = ${result}`);
-    if (result !== 3)
-        throw new Error("wasm addition doesn't work!");
+    greet();
 }
 
 run();
