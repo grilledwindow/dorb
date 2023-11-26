@@ -37,7 +37,7 @@ async function run() {
     // modes
     await init();
 
-    greet();
+    greet("dorb");
 }
 
 run();
