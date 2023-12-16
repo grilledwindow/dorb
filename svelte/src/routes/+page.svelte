@@ -20,7 +20,9 @@
     $: if (files) {
         const img = new Image();
         img.onload = () => {
-            context?.drawImage(img, 0, 0);
+            if (!context) return;
+            const r = Math.max(img.width / canvas.width, img.height / canvas.height);
+            context.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width / r, img.height / r);
         };
         img.src = URL.createObjectURL(files[0]);
     }
