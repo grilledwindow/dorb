@@ -1,6 +1,7 @@
 <script>
     import wasm, { main } from '$lib/init';
 
+    main(() => {});
     /** @type {FileList} */
     let files;
 
@@ -14,6 +15,12 @@
 
     // todo: make this more efficient
     $: srcs = Array.from(files ?? []).map(URL.createObjectURL);
+    $: {
+        if (files) {
+            const p = Promise.all(Array.from(files).map(file => file.arrayBuffer().then(buf => new Uint8Array(buf))));
+            p.then(b => wasm.files(padding, b[0]));
+        } 
+    }
 </script>
 
 <input type="file" multiple accept="image/png, image/jpeg" bind:files />
