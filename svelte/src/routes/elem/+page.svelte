@@ -13,14 +13,24 @@
     
     let padding = 8;
 
-    // todo: make this more efficient
+    // TODO: make this more efficient
     $: srcs = Array.from(files ?? []).map(URL.createObjectURL);
     $: {
         if (files) {
             Array.from(files).forEach(async file => {
                 const buf = await file.arrayBuffer();
                 const bytes = new Uint8Array(buf);
-                console.log(wasm.files(padding, bytes));
+                const newBytes = wasm.files(padding, bytes);
+                const newFile = new File([newBytes], "blah");
+
+                // automatically download new image
+                const aElement = document.createElement('a');
+                aElement.setAttribute('download', 'testphoto.jpg');
+                const href = URL.createObjectURL(newFile);
+                aElement.href = href;
+                aElement.setAttribute('target', '_blank');
+                aElement.click();
+                URL.revokeObjectURL(href);
             });
         } 
     }

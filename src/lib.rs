@@ -1,4 +1,4 @@
-use image::{io::Reader as ImageReader, GenericImageView, imageops, Rgba, RgbaImage, EncodableLayout};
+use image::{io::Reader as ImageReader, GenericImageView, imageops, Rgba, RgbaImage, ImageBuffer, codecs::{png::PngEncoder, jpeg::JpegEncoder}, ImageFormat};
 use std::io::Cursor;
 
 mod utils;
@@ -23,11 +23,17 @@ pub fn greet(name: &str) {
 }
 
 #[wasm_bindgen]
-pub fn files(padding: u32, buf: Vec<u8>)  {
+pub fn files(padding: u32, buf: Vec<u8>) -> Vec<u8> {
     let r = ImageReader::new(Cursor::new(&buf));
 
     console_log!("{:?}", &buf);
-    match r.with_guessed_format().unwrap().decode() {
+    let mut bg: ImageBuffer<Rgba<u8>, Vec<u8>>;
+
+    // 
+    let r = r.with_guessed_format().unwrap();
+    let format = r.format().unwrap();
+
+    match r.decode() {
         Ok(f) => {
             let (w, h) = f.dimensions();
             let nw = if w > h { w } else { h };
@@ -37,12 +43,22 @@ pub fn files(padding: u32, buf: Vec<u8>)  {
             let x = (nw - w) / 2 + padding;
             let y = (nw - h) / 2 + padding;
 
-            let mut bg = RgbaImage::from_pixel(wp, wp, Rgba([255, 255, 255, 255]));
+            bg = RgbaImage::from_pixel(wp, wp, Rgba([255, 255, 255, 255]));
             imageops::replace(&mut bg, &f, x as i64, y as i64);
-            console_log!("{:?}", bg.as_bytes());
+
+            let mut buffer: Vec<u8> = Vec::new();
+            let _ = match format {
+                // TODO: all other encoders
+                ImageFormat::Png => { bg.write_with_encoder(PngEncoder::new(&mut buffer)) },
+                _ => { bg.write_with_encoder(JpegEncoder::new(&mut buffer)) }
+            };
+
+            console_log!("{:?}", &buffer);
+            buffer
         },
         Err(e) => {
             console_log!("{e}");
+            Vec::new()
         }
     }
 }
