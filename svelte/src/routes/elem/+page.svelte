@@ -17,8 +17,11 @@
     $: srcs = Array.from(files ?? []).map(URL.createObjectURL);
     $: {
         if (files) {
-            const p = Promise.all(Array.from(files).map(file => file.arrayBuffer().then(buf => new Uint8Array(buf))));
-            p.then(b => wasm.files(padding, b[0]));
+            Array.from(files).forEach(async file => {
+                const buf = await file.arrayBuffer();
+                const bytes = new Uint8Array(buf);
+                console.log(wasm.files(padding, bytes));
+            });
         } 
     }
 </script>
