@@ -42,7 +42,7 @@
 <button on:click={() => processImages(files)} class="border border-black p-1">Process images</button>
 
 <div class="w-full mt-4 space-y-2">
-    <input type="number" bind:value={padding}>
+    <input type="number" bind:value={padding} placeholder="padding">
     
     {#if zipped}
         <a href={URL.createObjectURL(zipped)} download={zipped.name} class="border border-black p-1">
