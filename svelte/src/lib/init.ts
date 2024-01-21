@@ -1,10 +1,7 @@
 import { browser } from '$app/environment';
 import init, * as wasm from '../wasm/dorb';
 
-/**
- * @param {() => any} main
-*/
-export const main = (main) => {
+export const main = (main: () => any) => {
     if (browser) {
         (async () => {
             await init();
