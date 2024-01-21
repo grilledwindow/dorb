@@ -1,28 +1,33 @@
 <script lang="ts">
+    import * as JSZip from 'jszip';
     import wasm, { main } from '$lib/init';
 
     main(() => {});
     let files: FileList;
     let srcs: string[] = [];
-    let processedImages: File[] = [];
     let width: number;
     let maxSize: number;
     let padding = 0;
 
+    let zipped: File;
+
     // TODO: make this more efficient
     $: srcs = Array.from(files ?? []).map(URL.createObjectURL);
 
-    const processImage = async (file: File): Promise<File> => {
-        const buf = await file.arrayBuffer();
-        const bytes = new Uint8Array(buf);
-        const newBytes = wasm.files(padding, bytes);
-        return new File([newBytes], "dorb_" + file.name);
-    }
-
     const processImages = async (files: FileList | null): Promise<File[] | undefined> => {
         if (!files || !files.length) return;
-        processedImages = await Promise.all(Array.from(files).map(processImage));
-        console.log(processedImages)
+        const zip = new JSZip();
+
+        await Promise.all(Array.from(files).map(async file => {
+            const buf = await file.arrayBuffer();
+            const bytes = new Uint8Array(buf);
+            const newBytes = wasm.files(padding, bytes);
+            
+            zip.file("dorb_" + file.name, newBytes);
+        }));
+
+        const blob = await zip.generateAsync({ type: 'blob'});
+        zipped = new File([blob], "dorb.zip");
     };
 
     $: {
@@ -39,11 +44,11 @@
 <div class="w-full mt-4 space-y-2">
     <input type="number" bind:value={padding}>
     
-    {#each processedImages as img}
-        <a href={URL.createObjectURL(img)} download={img.name} class="border border-black p-1">
-            Download {img.name}
+    {#if zipped}
+        <a href={URL.createObjectURL(zipped)} download={zipped.name} class="border border-black p-1">
+            Download {zipped.name}
         </a>
-    {/each}
+    {/if}
 
     {#each srcs as src}
         <div bind:clientWidth={width} class="w-1/2 bg-black flex justify-center items-center" style="height: {width}px">
