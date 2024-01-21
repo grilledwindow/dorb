@@ -1,17 +1,10 @@
-<script>
+<script lang="ts">
     import wasm, { main } from '$lib/init';
 	import { onMount } from 'svelte';
 
-    /** @type {FileList} */
-    let files;
-
-    /** @type {HTMLCanvasElement} */
-    let canvas;
-
-    /**
-	 * @type {CanvasRenderingContext2D | null}
-	 */
-    let context;
+    let files: FileList;
+    let canvas: HTMLCanvasElement;
+    let context: CanvasRenderingContext2D | null;
 
     onMount(() => {
         context = canvas.getContext('2d');

@@ -1,16 +1,10 @@
-<script>
+<script lang="ts">
     import wasm, { main } from '$lib/init';
 
     main(() => {});
-    /** @type {FileList} */
-    let files;
-
-    /** @type {string[]} */
-    let srcs = [];
-
-    /** @type {number} */
-    let width;
-    
+    let files: FileList;
+    let srcs: string[] = [];
+    let width: number;
     let padding = 8;
 
     // TODO: make this more efficient
