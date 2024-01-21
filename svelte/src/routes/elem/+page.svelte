@@ -51,7 +51,7 @@
     {/if}
 
     {#each srcs as src}
-        <div bind:clientWidth={width} class="w-1/2 bg-black flex justify-center items-center" style="height: {width}px">
+        <div bind:clientWidth={width} class="w-1/2 border border-5 border-black bg-white flex justify-center items-center" style="height: {width}px">
             <img {src} alt="" class="left-0" style="max-width: {maxSize}px; max-height: {maxSize}px" />
         </div>
     {/each}
