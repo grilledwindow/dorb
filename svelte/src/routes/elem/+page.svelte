@@ -1,5 +1,5 @@
 <script lang="ts">
-    import * as JSZip from 'jszip';
+    import JSZip from 'jszip';
     import wasm, { main } from '$lib/init';
 
     main(() => {});
