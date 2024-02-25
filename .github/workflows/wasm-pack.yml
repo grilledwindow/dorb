@@ -12,7 +12,7 @@ jobs:
     name: Build and publish to Cloudflare Pages
     steps:
       - uses: actions/checkout@v4
-      - name: WASM pack
+      - name: Wasm Pack
         uses: jetli/wasm-pack-action@v0.4.0
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
       - name: Publish to Cloudflare Pages
@@ -21,5 +21,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: a5072175ae8b2ac798c0583ac6da2f0d
           projectName: dorb
-          directory: .svelte-kit
+          directory: .svelte-kit/cloudflare
           workingDirectory: svelte
