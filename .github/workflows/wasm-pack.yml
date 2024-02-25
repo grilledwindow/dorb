@@ -7,8 +7,9 @@ jobs:
   wasm-pack:
     runs-on: ubuntu-latest
     steps:
-      - name: wasm-pack-action
-        uses: jetli/wasm-pack-action@v0.4.0
+      - uses: jetli/wasm-pack-action@v0.4.0
+      - run: ls -a
       - run: cd svelte
       - run: wasm-pack build ../wasm -t web -d src/wasm/
-            
+      - uses: actions/checkout@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
