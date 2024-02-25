@@ -20,4 +20,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: a5072175ae8b2ac798c0583ac6da2f0d
-          directory: svelte/.svelte-kit
+          projectName: dorb
+          directory: .svelte-kit
+          workingDirectory: svelte
