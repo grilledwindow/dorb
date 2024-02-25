@@ -9,7 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jetli/wasm-pack-action@v0.4.0
-      - run: cd svelte
-      - run: ls ../wasm
-      - run: wasm-pack build ../wasm -t web -d src/wasm/
+      - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
       - uses: stefanzweifel/git-auto-commit-action@v5
