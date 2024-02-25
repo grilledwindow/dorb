@@ -17,8 +17,8 @@ jobs:
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
       - name: Build Svelte
       - uses: actions/setup-node@v4
-          with:
-            node-version: 20
+        with:
+          node-version: 20
       - run: npm run build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
