@@ -16,7 +16,7 @@ jobs:
         uses: jetli/wasm-pack-action@v0.4.0
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
       - name: Build Svelte
-      - uses: actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: npm run build
