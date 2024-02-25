@@ -9,5 +9,6 @@ jobs:
     steps:
       - name: wasm-pack-action
         uses: jetli/wasm-pack-action@v0.4.0
+      - run: cd svelte
       - run: wasm-pack build ../wasm -t web -d src/wasm/
             
