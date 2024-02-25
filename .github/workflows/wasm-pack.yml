@@ -19,6 +19,6 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: YOUR_ACCOUNT_IDa5072175ae8b2ac798c0583ac6da2f0d
+          accountId: a5072175ae8b2ac798c0583ac6da2f0d
           projectName: dorb
           directory: svelte/.svelte-kit
