@@ -10,4 +10,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: jetli/wasm-pack-action@v0.4.0
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
+      - run: ls svelte
       - uses: stefanzweifel/git-auto-commit-action@v5
