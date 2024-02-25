@@ -4,16 +4,21 @@ on:
     branches:
       - release
 jobs:
-  wasm-pack:
+  build-publish:
+    permissions:
+      contents: read
+      deployments: write
     runs-on: ubuntu-latest
+    name: Build and publish to Cloudflare Pages
     steps:
       - uses: actions/checkout@v4
-      - uses: jetli/wasm-pack-action@v0.4.0
+      - name: WASM pack
+        uses: jetli/wasm-pack-action@v0.4.0
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
-      - run: ls svelte/src
-      - uses: stefanzweifel/git-auto-commit-action@v5
-  test-ls:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: ls svelte/src
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: YOUR_ACCOUNT_IDa5072175ae8b2ac798c0583ac6da2f0d
+          projectName: dorb
+          directory: svelte/.svelte-kit
