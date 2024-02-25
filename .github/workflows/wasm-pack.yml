@@ -19,8 +19,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: ls svelte/src; cd svelte
-      - run: npm run build
+      - run: |
+          cd svelte
+          npm run build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
