@@ -12,3 +12,8 @@ jobs:
       - run: wasm-pack build wasm -t web -d ../svelte/src/wasm/
       - run: ls svelte/src
       - uses: stefanzweifel/git-auto-commit-action@v5
+  test-ls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ls svelte/src
